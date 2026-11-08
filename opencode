@@ -1,0 +1,15 @@
+#!/bin/sh
+
+versions="$HOME/.opencode/desktop-ssh"
+if [ ! -d "$versions" ]; then
+  printf 'opencode: version directory not found: %s\n' "$versions" >&2
+  exit 1
+fi
+
+binary=$(find "$versions" -mindepth 2 -maxdepth 2 -type f -name opencode -executable | sort -V | tail -n 1)
+if [ -z "$binary" ]; then
+  printf 'opencode: no executable found in %s\n' "$versions" >&2
+  exit 1
+fi
+
+exec "$binary" "$@"
